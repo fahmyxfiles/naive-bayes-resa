@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\WebController;
+
+Route::get('/', [WebController::class, 'showForm'])->name('showForm');
+Route::post('/submit', [WebController::class, 'handleSubmit'])->name('handleSubmit');
