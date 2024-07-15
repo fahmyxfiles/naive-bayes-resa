@@ -76,7 +76,15 @@ class WebController extends Controller
 
         $nb->training($data);
 
-        return $nb->predict($text);
+        $hasil = null;
+
+        try {
+            $hasil = $nb->predict($text);
+        }
+        catch(\Exception $e){
+            $hasil = "Konteks tidak sesuai";
+        }
+        return $hasil;
 
     }
 }
