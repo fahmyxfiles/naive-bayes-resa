@@ -8,9 +8,9 @@ use Biobii\NaiveBayes;
 
 class WebController extends Controller
 {
-    public function showForm()
+    public function index()
     {
-        return view('naivebayesform');
+        return view('classify-form');
     }
 
     public function handleSubmit(Request $request)
@@ -23,7 +23,12 @@ class WebController extends Controller
 
         $result = $this->classify($text);
 
-        return view('naivebayesresult', ['result' => $result, 'text' => $text]);
+        return view('classify-predict', ['result' => $result, 'text' => $text]);
+    }
+
+    public function training_data()
+    {
+        return view('classify-training');
     }
 
     public function classify($text){
