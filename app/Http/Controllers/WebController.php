@@ -26,6 +26,28 @@ class WebController extends Controller
         return view('naivebayesresult', ['result' => $result, 'text' => $text]);
     }
 
+    public function classify($text){
+        $nb = new NaiveBayes();
+
+        $nb->setClass(['Positif', 'Negatif']);
+
+        $filePath = public_path('data.csv');
+        $data = $this->parse_csv($filePath);
+
+        $nb->training($data);
+
+        $hasil = null;
+
+        try {
+            $hasil = $nb->predict($text);
+        }
+        catch(\Exception $e){
+            $hasil = "Konteks tidak sesuai";
+        }
+        return $hasil;
+
+    }
+
     public function parse_csv($filePath)
     {
         $data = [];
@@ -64,27 +86,5 @@ class WebController extends Controller
         }
     
         return $data;
-    }
-
-    public function classify($text){
-        $nb = new NaiveBayes();
-
-        $nb->setClass(['Positif', 'Negatif']);
-
-        $filePath = public_path('data.csv');
-        $data = $this->parse_csv($filePath);
-
-        $nb->training($data);
-
-        $hasil = null;
-
-        try {
-            $hasil = $nb->predict($text);
-        }
-        catch(\Exception $e){
-            $hasil = "Konteks tidak sesuai";
-        }
-        return $hasil;
-
     }
 }
